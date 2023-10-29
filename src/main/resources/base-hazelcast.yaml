@@ -1,0 +1,16 @@
+hazelcast:
+#  properties:
+#    hazelcast.jmx: true
+  cluster-name: hz-benchmark
+  security:
+    enabled: false
+
+  map:
+    all-in-memory:
+      in-memory-format: OBJECT
+      cache-deserialized-values: ALWAYS
+
+  network:
+    join:
+      multicast:
+        enabled: true

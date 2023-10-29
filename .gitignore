@@ -1,0 +1,12 @@
+out/
+data/
+.secrets/
+.idea/
+ladder-service-temp/
+*.iml
+definitions/*
+temp
+store-*/
+target/
+config/
+!src/main/kotlin/com/kgignatyev/badminton_club/service/config/
