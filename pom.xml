@@ -17,6 +17,7 @@
 		<java.version>20</java.version>
 		<kotlin.version>1.9.10</kotlin.version>
 		<spring-boot-run-jvm-extra> </spring-boot-run-jvm-extra>
+		<profiling> -agentpath:/Applications/YourKit-Java-Profiler-2023.9.app/Contents/Resources/bin/mac/libyjpagent.dylib=disablestacktelemetry,exceptions=disable,delay=5000,listen=all </profiling>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -67,6 +68,7 @@
 
 					<jvmArguments>
 					${spring-boot-run-jvm-extra}
+
 					</jvmArguments>
 				</configuration>
 			</plugin>

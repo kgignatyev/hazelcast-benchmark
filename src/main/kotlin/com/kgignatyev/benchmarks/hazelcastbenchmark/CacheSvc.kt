@@ -5,14 +5,16 @@ import com.hazelcast.core.HazelcastInstance
 import com.hazelcast.map.IMap
 import com.hazelcast.query.Predicate
 import com.hazelcast.query.Predicates
+import com.kgignatyev.benchmarks.hazelcastbenchmark.HzConfig.Companion.allInMemoryCacheName
 import jakarta.annotation.PostConstruct
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.ApplicationEvent
 import org.springframework.context.ApplicationListener
 import org.springframework.stereotype.Component
 
 
 @Component
-class CacheSvc(val hz: HazelcastInstance, val om:ObjectMapper ) : ApplicationListener<ApplicationEvent> {
+class CacheSvc( val hz: HazelcastInstance, val om:ObjectMapper ) : ApplicationListener<ApplicationEvent> {
     override fun onApplicationEvent(event: ApplicationEvent) {
         println("event: $event")
     }
@@ -21,7 +23,10 @@ class CacheSvc(val hz: HazelcastInstance, val om:ObjectMapper ) : ApplicationLis
 
     @PostConstruct
     fun init() {
-        allInMemoryCache = hz.getMap("all-in-memory")
+        allInMemoryCache = hz.getMap(allInMemoryCacheName)
+        val mapConf = hz.config.mapConfigs[allInMemoryCacheName]
+        val cfg = om.writer().withDefaultPrettyPrinter().writeValueAsString(mapConf)
+        println("mapConf: $cfg")
     }
 
 
@@ -40,8 +45,12 @@ class CacheSvc(val hz: HazelcastInstance, val om:ObjectMapper ) : ApplicationLis
         return results.toList()
     }
 
-    fun buildPredicate(c: SearchCriteria): Predicate<String, BMCompany>? {
-        return Predicates.like( "name", c.searchBy.first.value)
+    fun buildPredicate(c: SearchCriteria): Predicate<String, BMCompany> {
+        return Predicates.like( "name", "%${c.searchBy.first.value}%")
+    }
+
+    fun buildCustomPredicate(c: SearchCriteria): Predicate<String, BMCompany> {
+        return ContainsPredicate( "name",c.searchBy.first.value )
     }
 
 }
