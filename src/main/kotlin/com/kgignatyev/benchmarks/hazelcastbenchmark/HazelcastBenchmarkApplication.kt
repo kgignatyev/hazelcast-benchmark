@@ -1,10 +1,7 @@
 package com.kgignatyev.benchmarks.hazelcastbenchmark
 
-import com.kgignatyev.benchmarks.hazelcastbenchmark.cases.ObjectCacheCustomPredicateSvc
-import com.kgignatyev.benchmarks.hazelcastbenchmark.cases.ObjectCacheSvc
-import com.kgignatyev.benchmarks.hazelcastbenchmark.cases.TestListSvc
+import com.kgignatyev.benchmarks.hazelcastbenchmark.cases.*
 import org.springframework.boot.SpringApplication
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.ConfigurableApplicationContext
 import kotlin.system.exitProcess
@@ -28,10 +25,16 @@ fun runUserCommands(cfg: ConfigurableApplicationContext) {
 	var cmd = ""
 	var proceed = true
 	while (proceed){
-		println("enter command: exit, test-list, test-object-cache, test-object-cache-w-custom-predicate")
-		cmd = readln()
+		println("enter command: exit, generate-data N, test-list, test-object-cache," +
+				" test-object-cache-w-custom-predicate, test-json-node-cache, test-custom-json-node-cache")
+		val parts = readln().trim().split(" ")
+		cmd = parts[0]
 		when(cmd){
 			"exit" -> proceed = false
+			"generate-data" -> {
+				val svc = cfg.getBean(TestDataGeneratorSvc::class.java)
+				svc.generateTestData(parts[1].toInt())
+			}
 			"test-list" -> {
 				val svc = cfg.getBean(TestListSvc::class.java)
 				runBenchmark(svc)
@@ -44,12 +47,20 @@ fun runUserCommands(cfg: ConfigurableApplicationContext) {
 				val svc = cfg.getBean(ObjectCacheCustomPredicateSvc::class.java)
 				runBenchmark(svc)
 			}
+			"test-json-node-cache" -> {
+				val svc = cfg.getBean(HazelcastJsonNodeCacheSvc::class.java)
+				runBenchmark(svc)
+			}
+			"test-custom-json-node-cache" -> {
+				val svc = cfg.getBean(CustomJsonNodeCacheSvc::class.java)
+				runBenchmark(svc)
+			}
 			else -> println("unknown command")
 		}
 	}
 }
 
-fun runBenchmark(svc: Benchmark<BMCompany>) {
+fun <V> runBenchmark(svc: Benchmark<V>) {
 	val c = createSearchCriteria()
 	val testName = svc.name()
 	val loadTime = measureNanoTime { svc.loadTestData() }

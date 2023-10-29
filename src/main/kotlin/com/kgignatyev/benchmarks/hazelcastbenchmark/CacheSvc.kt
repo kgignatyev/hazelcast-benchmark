@@ -2,12 +2,15 @@ package com.kgignatyev.benchmarks.hazelcastbenchmark
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.hazelcast.core.HazelcastInstance
+import com.hazelcast.core.HazelcastJsonValue
 import com.hazelcast.map.IMap
 import com.hazelcast.query.Predicate
 import com.hazelcast.query.Predicates
 import com.kgignatyev.benchmarks.hazelcastbenchmark.HzConfig.Companion.allInMemoryCacheName
+import com.kgignatyev.benchmarks.hazelcastbenchmark.HzConfig.Companion.customJsonNodeMapName
+import com.kgignatyev.benchmarks.hazelcastbenchmark.HzConfig.Companion.jsonNodeMapName
+import com.kgignatyev.benchmarks.hazelcastbenchmark.cases.CustomJsonNode
 import jakarta.annotation.PostConstruct
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.ApplicationEvent
 import org.springframework.context.ApplicationListener
 import org.springframework.stereotype.Component
@@ -20,13 +23,23 @@ class CacheSvc( val hz: HazelcastInstance, val om:ObjectMapper ) : ApplicationLi
     }
 
     lateinit var allInMemoryCache: IMap<String, BMCompany>
+    lateinit var jsonNodeMap: IMap<String, HazelcastJsonValue>
+    lateinit var customJsonNodeMap: IMap<String, CustomJsonNode>
 
     @PostConstruct
     fun init() {
-        allInMemoryCache = hz.getMap(allInMemoryCacheName)
-        val mapConf = hz.config.mapConfigs[allInMemoryCacheName]
-        val cfg = om.writer().withDefaultPrettyPrinter().writeValueAsString(mapConf)
-        println("mapConf: $cfg")
+        allInMemoryCache = getMap(allInMemoryCacheName)
+        jsonNodeMap = getMap(jsonNodeMapName)
+        customJsonNodeMap = getMap(customJsonNodeMapName)
+    }
+
+    fun <T> getMap(name:String):IMap<String, T> {
+        val map:IMap<String, T> = hz.getMap(name)
+        val cfg = hz.config.mapConfigs[name]
+        if (cfg != null) {
+            println("map config: " + om.writer().withDefaultPrettyPrinter().writeValueAsString(cfg))
+        }
+        return map
     }
 
 
@@ -45,12 +58,12 @@ class CacheSvc( val hz: HazelcastInstance, val om:ObjectMapper ) : ApplicationLi
         return results.toList()
     }
 
-    fun buildPredicate(c: SearchCriteria): Predicate<String, BMCompany> {
+    fun <T> buildHzLikePredicate(c: SearchCriteria): Predicate<String, T> {
         return Predicates.like( "name", "%${c.searchBy.first.value}%")
     }
 
     fun buildCustomPredicate(c: SearchCriteria): Predicate<String, BMCompany> {
-        return ContainsPredicate( "name",c.searchBy.first.value )
+        return BMCompanyContainsPredicate( "name",c.searchBy.first.value )
     }
 
 }

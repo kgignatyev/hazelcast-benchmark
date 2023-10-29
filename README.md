@@ -2,6 +2,8 @@ testing Hazelcast with different configurations
 ---
 
 
-# Run Utilities
+# Run Multiple instances to form a cluster
 
-sbr -Dspring-boot.run.arguments=gen-test-data
+sbr -Dspring-boot.run.arguments=--server.port=8080
+sbr -Dspring-boot.run.arguments=--server.port=8081
+sbr -Dspring-boot.run.arguments=--server.port=8082

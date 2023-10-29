@@ -10,13 +10,16 @@ import org.springframework.context.annotation.Configuration
 class BenchmarkConfig {
 
 
+
+
     @Bean
     fun om(): ObjectMapper {
-        return jacksonObjectMapper()
+        return objMapper
     }
 
 
     companion object{
         val testDataFileName = "data/companies.json"
+        val objMapper = jacksonObjectMapper()
     }
 }

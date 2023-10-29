@@ -18,10 +18,13 @@ class TestDataLoader( val om:ObjectMapper) {
     }
 
     fun loadJsonData( callback:(String)->Unit) {
+        var count = 0
         FileReader( BenchmarkConfig.testDataFileName ).useLines { lines ->
             lines.forEach {
+                count++
                 callback(it)
             }
         }
+        println("Loaded $count entries")
     }
 }

@@ -3,9 +3,9 @@ package com.kgignatyev.benchmarks.hazelcastbenchmark
 import com.hazelcast.query.Predicate
 
 
-class ContainsPredicate(val field: String, val value: String) : Predicate<String,BMCompany> {
+class BMCompanyContainsPredicate(val field: String, val value: String) : Predicate<String,BMCompany> {
     override fun apply(mapEntry: MutableMap.MutableEntry<String, BMCompany>?): Boolean {
-        return mapEntry?.value?.let {
+        val r = mapEntry?.value?.let {
             when (field) {
                 "name" -> it.name.contains(value)
                 "industry" -> it.industry.contains(value)
@@ -14,6 +14,8 @@ class ContainsPredicate(val field: String, val value: String) : Predicate<String
                 else -> false
             }
         } ?: false
+//        println("apply $field $value $r")
+        return r
     }
 
 }
