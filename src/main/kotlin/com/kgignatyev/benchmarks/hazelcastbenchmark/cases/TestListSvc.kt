@@ -13,8 +13,9 @@ class TestListSvc(val tdl: TestDataLoader) :Benchmark<BMCompany> {
     val list = mutableListOf<BMCompany>()
 
     override fun run(c: SearchCriteria): List<BMCompany> {
-        val nameCriteria = c.searchBy.first().value
-        return list.filter { it.name.contains(nameCriteria) }
+        val nameCriteria = c.searchBy[0].value
+        val employeeNameCriteria = c.searchBy[1].value
+        return list.filter { org -> org.name.contains(nameCriteria) && (org.employees.find { it.fullName.contains(employeeNameCriteria)  }!= null) }
             .sortedBy{ c.sortBy.first.field }
     }
 

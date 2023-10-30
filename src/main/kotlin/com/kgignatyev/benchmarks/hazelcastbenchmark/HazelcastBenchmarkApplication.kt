@@ -25,8 +25,15 @@ fun runUserCommands(cfg: ConfigurableApplicationContext) {
 	var cmd = ""
 	var proceed = true
 	while (proceed){
-		println("enter command: exit, generate-data N, test-list, test-object-cache," +
-				" test-object-cache-w-custom-predicate, test-json-node-cache, test-custom-json-node-cache")
+		println("""
+			enter command: 
+			  exit, 
+			  generate-data N, 
+			  test-list, 
+			  test-object-cache
+			  test-object-cache-w-custom-predicate,
+			  test-json-node-cache, 
+			  test-custom-json-node-cache""".trimIndent())
 		val parts = readln().trim().split(" ")
 		cmd = parts[0]
 		when(cmd){
@@ -68,10 +75,18 @@ fun <V> runBenchmark(svc: Benchmark<V>) {
 	val tn = testName.padEnd(35)
 	val lt = loadTime.toString().padStart(20)
 	println( "$tn load time: $lt ns" )
+	var totalTime = 0L
+	var runCount = 0
 	(1..20).forEach {
 		val runTime = measureNanoTime { numResults = svc.run(c).size }
 		reportResults(it, tn, runTime, numResults)
+		if( it > 2){//lets ignore couple warm ups, as CustomJson is severely affected
+			totalTime+= runTime
+			runCount++
+		}
 	}
+	val avgTime = totalTime/runCount
+	println("$tn avg time: $avgTime ns or ${avgTime/1000000} ms")
 
 }
 
@@ -86,6 +101,7 @@ fun createSearchCriteria(): SearchCriteria {
 	return  SearchCriteria(
 		listOf(
 			PropertyCriteria("name", "rr", "contains"),
+			PropertyCriteria("employeeNames", "ok", "contains"),
 		)
 	)
 

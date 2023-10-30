@@ -22,6 +22,13 @@ class TestDataGeneratorSvc(val om: ObjectMapper) {
                  bmc.catchPhrase = c.catchPhrase()
                  bmc.url = c.url()
                  bmc.industry = c.industry()
+                    (1..10).forEach {
+                        val e = df.name()
+                        val bme = BMEmployee()
+                        bme.fullName = e.fullName()
+                        bme.title = e.title()
+                        bmc.employees.add(bme)
+                    }
 
                  fw.write(om.writeValueAsString(bmc))
                  fw.write("\n")

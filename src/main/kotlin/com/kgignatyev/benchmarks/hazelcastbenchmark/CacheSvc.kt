@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component
 
 
 @Component
-class CacheSvc( val hz: HazelcastInstance, val om:ObjectMapper ) : ApplicationListener<ApplicationEvent> {
+class CacheSvc(val hz: HazelcastInstance, val om: ObjectMapper) : ApplicationListener<ApplicationEvent> {
     override fun onApplicationEvent(event: ApplicationEvent) {
         println("event: $event")
     }
@@ -33,8 +33,8 @@ class CacheSvc( val hz: HazelcastInstance, val om:ObjectMapper ) : ApplicationLi
         customJsonNodeMap = getMap(customJsonNodeMapName)
     }
 
-    fun <T> getMap(name:String):IMap<String, T> {
-        val map:IMap<String, T> = hz.getMap(name)
+    fun <T> getMap(name: String): IMap<String, T> {
+        val map: IMap<String, T> = hz.getMap(name)
         val cfg = hz.config.mapConfigs[name]
         if (cfg != null) {
             println("map config: " + om.writer().withDefaultPrettyPrinter().writeValueAsString(cfg))
@@ -49,9 +49,9 @@ class CacheSvc( val hz: HazelcastInstance, val om:ObjectMapper ) : ApplicationLi
     ): List<T> {
         val comparator = IDComparator<T>()
         val pagingPredicate = Predicates.pagingPredicate(
-                predicate,
-                comparator, 1000000
-            )
+            predicate,
+            comparator, 1000000
+        )
 
         val results: Collection<T> = map.values(pagingPredicate)
 
@@ -59,18 +59,28 @@ class CacheSvc( val hz: HazelcastInstance, val om:ObjectMapper ) : ApplicationLi
     }
 
     fun <T> buildHzLikePredicate(c: SearchCriteria): Predicate<String, T> {
-        return Predicates.like( "name", "%${c.searchBy.first.value}%")
+        val orgNameCriteria = c.searchBy[0].value
+        val employeeNameCriteria = c.searchBy[1].value
+        return Predicates.and(
+            Predicates.like<String, T>("employeeNames", "%${employeeNameCriteria}%"),
+            Predicates.like<String, T>("name", "%${orgNameCriteria}%")
+        )
     }
 
     fun buildCustomPredicate(c: SearchCriteria): Predicate<String, BMCompany> {
-        return BMCompanyContainsPredicate( "name",c.searchBy.first.value )
+        val orgNameCriteria = c.searchBy[0].value
+        val employeeNameCriteria = c.searchBy[1].value
+        return Predicates.and(
+            BMCompanyContainsPredicate("name", orgNameCriteria),
+            StingArrayContainsPredicate("employeeNames", employeeNameCriteria ),
+        )
     }
 
 }
 
-class IDComparator<T>:Comparator<MutableMap.MutableEntry<String, T>>,java.io.Serializable {
+class IDComparator<T> : Comparator<MutableMap.MutableEntry<String, T>>, java.io.Serializable {
     override fun compare(o1: MutableMap.MutableEntry<String, T>, o2: MutableMap.MutableEntry<String, T>): Int {
-        return o1.key.compareTo( o2.key)
+        return o1.key.compareTo(o2.key)
     }
 
 }

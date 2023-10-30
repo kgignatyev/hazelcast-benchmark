@@ -6,7 +6,7 @@ hazelcast:
     enabled: false
 
   map:
-    all-in-memory:
+    test:
       in-memory-format: OBJECT
       cache-deserialized-values: ALWAYS
 

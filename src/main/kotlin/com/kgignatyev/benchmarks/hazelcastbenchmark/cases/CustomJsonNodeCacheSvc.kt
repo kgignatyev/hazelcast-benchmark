@@ -3,6 +3,7 @@ package com.kgignatyev.benchmarks.hazelcastbenchmark.cases
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.hazelcast.core.HazelcastJsonValue
 import com.hazelcast.query.Predicate
+import com.hazelcast.query.Predicates
 import com.kgignatyev.benchmarks.hazelcastbenchmark.*
 import com.kgignatyev.benchmarks.hazelcastbenchmark.BenchmarkConfig.Companion.objMapper
 import org.springframework.stereotype.Component
@@ -30,8 +31,13 @@ class CustomJsonNodeCacheSvc(val cacheSvc: CacheSvc, val tdl: TestDataLoader, ):
 
 
     override fun run(c: SearchCriteria): List<CustomJsonNode> {
-        val firstCriteria = c.searchBy.first()
-        val predicate = CustomJsonContainsPredicate(firstCriteria.field, firstCriteria.value)
+
+        val orgNameCriteria = c.searchBy[0].value
+        val employeeNameCriteria = c.searchBy[1].value
+        val predicate =  Predicates.and<String,CustomJsonNode>(
+            CustomJsonContainsPredicate("name", orgNameCriteria),
+            StingArrayContainsPredicate("employeeNames", employeeNameCriteria),
+        )
         return cacheSvc.searchCache(cacheSvc.customJsonNodeMap, predicate)
     }
 
