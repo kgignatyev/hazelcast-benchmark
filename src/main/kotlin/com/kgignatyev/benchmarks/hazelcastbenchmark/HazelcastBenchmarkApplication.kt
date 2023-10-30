@@ -32,7 +32,7 @@ fun runUserCommands(cfg: ConfigurableApplicationContext) {
 			  test-list, 
 			  test-object-cache
 			  test-object-cache-w-custom-predicate,
-			  test-json-node-cache, 
+			  test-default-json-node-cache, 
 			  test-custom-json-node-cache""".trimIndent())
 		val parts = readln().trim().split(" ")
 		cmd = parts[0]
@@ -54,7 +54,7 @@ fun runUserCommands(cfg: ConfigurableApplicationContext) {
 				val svc = cfg.getBean(ObjectCacheCustomPredicateSvc::class.java)
 				runBenchmark(svc)
 			}
-			"test-json-node-cache" -> {
+			"test-default-json-node-cache" -> {
 				val svc = cfg.getBean(HazelcastJsonNodeCacheSvc::class.java)
 				runBenchmark(svc)
 			}

@@ -10,7 +10,7 @@ class HzConfig {
     companion object {
         const val allInMemoryCacheName = "all-in-memory"
         const val deserializedOnDemandCacheName = "deserialized-on-demand"
-        const val jsonNodeMapName = "json-node-map"
+        const val jsonNodeMapName = "default-json-node-map"
         const val customJsonNodeMapName = "custom-json-node-map"
     }
 
@@ -20,17 +20,18 @@ class HzConfig {
         val config = Config.loadFromClasspath(this::class.java.classLoader, "base-hazelcast.yaml")
         val serializationConfig = config.serializationConfig
         serializationConfig.addSerializerConfig(SerializerConfig().apply {
-           className = BMCompanySerializer::class.java.name
+            className = BMCompanySerializer::class.java.name
             typeClass = BMCompany::class.java
             typeClassName = BMCompany::class.java.name
             implementation = BMCompanySerializer()
         } )
 
+
         val employeeNameAttrConfigForObjects = AttributeConfig("employeeNames", EmployeeNamesExtractorForObject::class.java.canonicalName)
 
         config.addMapConfig(MapConfig().apply {
             name = allInMemoryCacheName
-            backupCount = 1
+            backupCount = 0
             inMemoryFormat = InMemoryFormat.OBJECT
             cacheDeserializedValues = CacheDeserializedValues.ALWAYS
             attributeConfigs.add(employeeNameAttrConfigForObjects)
@@ -46,9 +47,14 @@ class HzConfig {
             }
         })
 
+        //we can't use this because HazelcastJsonValue is rejected by extractors (internal Hazelcast bug? feature?)
+//        val employeeNamesExtractorForDefaultJsonNode =  AttributeConfig("employeeNames",EmployeeNamesExtractorForHzJsonNode::class.java.canonicalName)
         config.addMapConfig(MapConfig().apply {
             name = jsonNodeMapName
             backupCount = 0
+            attributeConfigs.apply {
+//                add(employeeNamesExtractorForDefaultJsonNode)
+            }
         })
 
         val employeeNameAttrConfigForCustomJsonNode = AttributeConfig("employeeNames", EmployeeNamesExtractorForCustomJsonNode::class.java.canonicalName)

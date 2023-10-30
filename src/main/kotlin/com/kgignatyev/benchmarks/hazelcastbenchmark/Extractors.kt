@@ -2,8 +2,10 @@ package com.kgignatyev.benchmarks.hazelcastbenchmark
 
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
+import com.hazelcast.core.HazelcastJsonValue
 import com.hazelcast.query.extractor.ValueCollector
 import com.hazelcast.query.extractor.ValueExtractor
+import com.hazelcast.query.extractor.ValueReader
 import com.kgignatyev.benchmarks.hazelcastbenchmark.cases.CustomJsonNode
 
 
@@ -27,5 +29,17 @@ class EmployeeNamesExtractorForCustomJsonNode: ValueExtractor<CustomJsonNode, St
         employees.forEach {
             collector.addObject( (it as ObjectNode).get("fullName").asText() )
         }
+    }
+}
+
+class EmployeeNamesExtractorForHzJsonNode: ValueExtractor<Any, String> {
+    override fun extract(target: Any?, argument: String?, collector: ValueCollector<Any>) {
+        if( target == null ) return
+        val r = (target as ValueReader )
+        println(r)
+//        val employees = BenchmarkConfig.objMapper.readTree( target.value).get("employees") as ArrayNode
+//        employees.forEach {
+//            collector.addObject( (it as ObjectNode).get("fullName").asText() )
+//        }
     }
 }

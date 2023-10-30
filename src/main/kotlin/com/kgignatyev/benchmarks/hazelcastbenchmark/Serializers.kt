@@ -1,5 +1,6 @@
 package com.kgignatyev.benchmarks.hazelcastbenchmark
 
+import com.hazelcast.core.HazelcastJsonValue
 import com.hazelcast.nio.ObjectDataInput
 import com.hazelcast.nio.ObjectDataOutput
 import com.hazelcast.nio.serialization.StreamSerializer
@@ -21,3 +22,4 @@ class BMCompanySerializer : StreamSerializer<BMCompany> {
     }
 
 }
+
