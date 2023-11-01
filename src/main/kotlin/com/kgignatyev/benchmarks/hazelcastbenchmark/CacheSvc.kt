@@ -8,8 +8,10 @@ import com.hazelcast.query.Predicate
 import com.hazelcast.query.Predicates
 import com.kgignatyev.benchmarks.hazelcastbenchmark.HzConfig.Companion.allInMemoryCacheName
 import com.kgignatyev.benchmarks.hazelcastbenchmark.HzConfig.Companion.customJsonNodeMapName
+import com.kgignatyev.benchmarks.hazelcastbenchmark.HzConfig.Companion.flexibleJsonNodeMapName
 import com.kgignatyev.benchmarks.hazelcastbenchmark.HzConfig.Companion.jsonNodeMapName
 import com.kgignatyev.benchmarks.hazelcastbenchmark.cases.CustomJsonNode
+import com.kgignatyev.benchmarks.hazelcastbenchmark.cases.FlexibleJsonNode
 import jakarta.annotation.PostConstruct
 import org.springframework.context.ApplicationEvent
 import org.springframework.context.ApplicationListener
@@ -25,12 +27,14 @@ class CacheSvc(val hz: HazelcastInstance, val om: ObjectMapper) : ApplicationLis
     lateinit var allInMemoryCache: IMap<String, BMCompany>
     lateinit var jsonNodeMap: IMap<String, HazelcastJsonValue>
     lateinit var customJsonNodeMap: IMap<String, CustomJsonNode>
+    lateinit var flexibleJsonNodeMap: IMap<String, FlexibleJsonNode>
 
     @PostConstruct
     fun init() {
         allInMemoryCache = getMap(allInMemoryCacheName)
         jsonNodeMap = getMap(jsonNodeMapName)
         customJsonNodeMap = getMap(customJsonNodeMapName)
+        flexibleJsonNodeMap = getMap(flexibleJsonNodeMapName)
     }
 
     fun <T> getMap(name: String): IMap<String, T> {

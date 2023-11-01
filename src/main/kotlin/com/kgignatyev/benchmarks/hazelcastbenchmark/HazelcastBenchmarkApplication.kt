@@ -27,13 +27,15 @@ fun runUserCommands(cfg: ConfigurableApplicationContext) {
 	while (proceed){
 		println("""
 			enter command: 
-			  exit, 
+			  exit 
 			  generate-data N, 
-			  test-list, 
+			  test-list 
 			  test-object-cache
-			  test-object-cache-w-custom-predicate,
-			  test-default-json-node-cache, 
-			  test-custom-json-node-cache""".trimIndent())
+			  test-object-cache-w-custom-predicate
+			  test-default-json-node-cache 
+			  test-custom-json-node-cache
+			  test-flexible-json-node-cache
+			  """.trimIndent())
 		val parts = readln().trim().split(" ")
 		cmd = parts[0]
 		when(cmd){
@@ -60,6 +62,10 @@ fun runUserCommands(cfg: ConfigurableApplicationContext) {
 			}
 			"test-custom-json-node-cache" -> {
 				val svc = cfg.getBean(CustomJsonNodeCacheSvc::class.java)
+				runBenchmark(svc)
+			}
+			"test-flexible-json-node-cache" -> {
+				val svc = cfg.getBean(FlexibleJsonPredicatesSvc::class.java)
 				runBenchmark(svc)
 			}
 			else -> println("unknown command")

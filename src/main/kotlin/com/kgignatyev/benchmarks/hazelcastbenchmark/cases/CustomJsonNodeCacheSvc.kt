@@ -1,7 +1,6 @@
 package com.kgignatyev.benchmarks.hazelcastbenchmark.cases
 
 import com.fasterxml.jackson.databind.node.ObjectNode
-import com.hazelcast.core.HazelcastJsonValue
 import com.hazelcast.query.Predicate
 import com.hazelcast.query.Predicates
 import com.kgignatyev.benchmarks.hazelcastbenchmark.*
@@ -21,8 +20,8 @@ class CustomJsonNode(var json:String):Externalizable{
         out.writeUTF(json)
     }
 
-    override fun readExternal(`in`: ObjectInput) {
-        json = `in`.readUTF()
+    override fun readExternal(oin: ObjectInput) {
+        json = oin.readUTF()
     }
 }
 

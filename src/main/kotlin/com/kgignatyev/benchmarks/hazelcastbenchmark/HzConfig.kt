@@ -12,6 +12,7 @@ class HzConfig {
         const val deserializedOnDemandCacheName = "deserialized-on-demand"
         const val jsonNodeMapName = "default-json-node-map"
         const val customJsonNodeMapName = "custom-json-node-map"
+        const val flexibleJsonNodeMapName = "flexible-json-node-map"
     }
 
 
@@ -67,6 +68,16 @@ class HzConfig {
             attributeConfigs.apply {
                 add(employeeNameAttrConfigForCustomJsonNode)
             }
+        })
+
+        config.addMapConfig( MapConfig().apply {
+            name = flexibleJsonNodeMapName
+            backupCount = 0
+            inMemoryFormat = InMemoryFormat.OBJECT
+            cacheDeserializedValues = CacheDeserializedValues.ALWAYS
+//            attributeConfigs.apply {
+//                add(employeeNameAttrConfigForCustomJsonNode)
+//            }
         })
 
         return config
