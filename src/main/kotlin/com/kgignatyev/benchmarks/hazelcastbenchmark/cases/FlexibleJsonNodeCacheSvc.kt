@@ -55,6 +55,10 @@ class FlexibleJsonPredicatesSvc(val cacheSvc: CacheSvc, val tdl: TestDataLoader,
     override fun name(): String {
         return "flexible json predicates"
     }
+
+    override fun size(): Int {
+        return imap.size
+    }
 }
 
 

@@ -1,13 +1,14 @@
 package com.kgignatyev.benchmarks.hazelcastbenchmark
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.kgignatyev.benchmarks.hazelcastbenchmark.vo.BMCompany
 import org.springframework.stereotype.Component
 import java.io.FileReader
 
 @Component
 class TestDataLoader( val om:ObjectMapper) {
 
-    fun convertToBMC( json:String):BMCompany {
+    fun convertToBMC( json:String): BMCompany {
         return om.readValue(json, BMCompany::class.java)
     }
 

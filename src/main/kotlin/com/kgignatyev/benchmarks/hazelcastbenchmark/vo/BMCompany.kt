@@ -1,4 +1,4 @@
-package com.kgignatyev.benchmarks.hazelcastbenchmark
+package com.kgignatyev.benchmarks.hazelcastbenchmark.vo
 
 
 class BMCompany {

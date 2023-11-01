@@ -3,10 +3,10 @@ package com.kgignatyev.benchmarks.hazelcastbenchmark.cases
 import com.hazelcast.map.IMap
 import com.hazelcast.query.Predicate
 import com.kgignatyev.benchmarks.hazelcastbenchmark.*
-import org.springframework.stereotype.Component
+import com.kgignatyev.benchmarks.hazelcastbenchmark.vo.BMCompany
 
-abstract class BaseObjectCacheSvc(val imap: IMap<String, BMCompany>,  val cacheSvc: CacheSvc, val tdl: TestDataLoader,
- val predicateBuilder:(SearchCriteria)-> Predicate<String, BMCompany>
+abstract class BaseObjectCacheSvc(val imap: IMap<String, BMCompany>, val cacheSvc: CacheSvc, val tdl: TestDataLoader,
+                                  val predicateBuilder:(SearchCriteria)-> Predicate<String, BMCompany>
 ):Benchmark<BMCompany> {
 
 
@@ -21,5 +21,8 @@ abstract class BaseObjectCacheSvc(val imap: IMap<String, BMCompany>,  val cacheS
         }
     }
 
+    override fun size(): Int {
+        return imap.size
+    }
 
 }

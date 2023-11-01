@@ -1,10 +1,11 @@
-package com.kgignatyev.benchmarks.hazelcastbenchmark
+package com.kgignatyev.benchmarks.hazelcastbenchmark.hz
 
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.hazelcast.query.extractor.ValueCollector
 import com.hazelcast.query.extractor.ValueExtractor
 import com.hazelcast.query.extractor.ValueReader
+import com.kgignatyev.benchmarks.hazelcastbenchmark.vo.BMCompany
 import com.kgignatyev.benchmarks.hazelcastbenchmark.cases.CustomJsonNode
 
 

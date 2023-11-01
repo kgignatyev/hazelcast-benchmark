@@ -12,6 +12,9 @@ import com.kgignatyev.benchmarks.hazelcastbenchmark.HzConfig.Companion.flexibleJ
 import com.kgignatyev.benchmarks.hazelcastbenchmark.HzConfig.Companion.jsonNodeMapName
 import com.kgignatyev.benchmarks.hazelcastbenchmark.cases.CustomJsonNode
 import com.kgignatyev.benchmarks.hazelcastbenchmark.cases.FlexibleJsonNode
+import com.kgignatyev.benchmarks.hazelcastbenchmark.vo.BMCompany
+import com.kgignatyev.benchmarks.hazelcastbenchmark.hz.BMCompanyContainsPredicate
+import com.kgignatyev.benchmarks.hazelcastbenchmark.hz.StingArrayContainsPredicate
 import jakarta.annotation.PostConstruct
 import org.springframework.context.ApplicationEvent
 import org.springframework.context.ApplicationListener

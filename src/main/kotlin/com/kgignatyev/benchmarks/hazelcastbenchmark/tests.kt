@@ -5,6 +5,7 @@ interface Benchmark<T> {
     fun run( c:SearchCriteria ):List<T>
     fun loadTestData()
     fun name():String
+    fun size():Int
 }
 
 data class SortCriteria(val field: String, val order: String)

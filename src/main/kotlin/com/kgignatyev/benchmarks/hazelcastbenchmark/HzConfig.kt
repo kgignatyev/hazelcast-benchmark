@@ -1,6 +1,10 @@
 package com.kgignatyev.benchmarks.hazelcastbenchmark
 
 import com.hazelcast.config.*
+import com.kgignatyev.benchmarks.hazelcastbenchmark.vo.BMCompany
+import com.kgignatyev.benchmarks.hazelcastbenchmark.hz.BMCompanySerializer
+import com.kgignatyev.benchmarks.hazelcastbenchmark.hz.EmployeeNamesExtractorForCustomJsonNode
+import com.kgignatyev.benchmarks.hazelcastbenchmark.hz.EmployeeNamesExtractorForObject
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 

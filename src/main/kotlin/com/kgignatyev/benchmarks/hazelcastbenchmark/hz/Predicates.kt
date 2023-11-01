@@ -1,11 +1,12 @@
-package com.kgignatyev.benchmarks.hazelcastbenchmark
+package com.kgignatyev.benchmarks.hazelcastbenchmark.hz
 
 import com.hazelcast.query.Predicate
 import com.hazelcast.query.impl.Extractable
 import com.hazelcast.query.impl.getters.MultiResult
+import com.kgignatyev.benchmarks.hazelcastbenchmark.vo.BMCompany
 
 
-class BMCompanyContainsPredicate(val field: String, val value: String) : Predicate<String,BMCompany> {
+class BMCompanyContainsPredicate(val field: String, val value: String) : Predicate<String, BMCompany> {
     override fun apply(mapEntry: MutableMap.MutableEntry<String, BMCompany>?): Boolean {
         val r = mapEntry?.value?.let {
             when (field) {

@@ -1,9 +1,10 @@
-package com.kgignatyev.benchmarks.hazelcastbenchmark
+package com.kgignatyev.benchmarks.hazelcastbenchmark.hz
 
-import com.hazelcast.core.HazelcastJsonValue
 import com.hazelcast.nio.ObjectDataInput
 import com.hazelcast.nio.ObjectDataOutput
 import com.hazelcast.nio.serialization.StreamSerializer
+import com.kgignatyev.benchmarks.hazelcastbenchmark.vo.BMCompany
+import com.kgignatyev.benchmarks.hazelcastbenchmark.BenchmarkConfig
 
 
 class BMCompanySerializer : StreamSerializer<BMCompany> {

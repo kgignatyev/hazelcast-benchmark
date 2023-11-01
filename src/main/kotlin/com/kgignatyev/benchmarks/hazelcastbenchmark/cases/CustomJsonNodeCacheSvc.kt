@@ -5,6 +5,7 @@ import com.hazelcast.query.Predicate
 import com.hazelcast.query.Predicates
 import com.kgignatyev.benchmarks.hazelcastbenchmark.*
 import com.kgignatyev.benchmarks.hazelcastbenchmark.BenchmarkConfig.Companion.objMapper
+import com.kgignatyev.benchmarks.hazelcastbenchmark.hz.StingArrayContainsPredicate
 import org.springframework.stereotype.Component
 import java.io.Externalizable
 import java.io.ObjectInput
@@ -53,6 +54,9 @@ class CustomJsonNodeCacheSvc(val cacheSvc: CacheSvc, val tdl: TestDataLoader, ):
         return "custom json node cache"
     }
 
+    override fun size(): Int {
+        return cacheSvc.customJsonNodeMap.size
+    }
 
 }
 

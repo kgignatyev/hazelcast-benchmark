@@ -26,5 +26,7 @@ class HazelcastJsonNodeCacheSvc(val cacheSvc: CacheSvc, val tdl: TestDataLoader,
         return "hazelcast json node cache"
     }
 
-
+    override fun size(): Int {
+        return cacheSvc.jsonNodeMap.size
+    }
 }
