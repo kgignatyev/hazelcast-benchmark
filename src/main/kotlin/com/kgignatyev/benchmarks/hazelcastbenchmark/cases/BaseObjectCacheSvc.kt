@@ -16,6 +16,7 @@ abstract class BaseObjectCacheSvc(val imap: IMap<String, BMCompany>, val cacheSv
     }
 
     override fun loadTestData() {
+        imap.clear()
         tdl.loadObjectData{
             imap.put(it.id, it)
         }

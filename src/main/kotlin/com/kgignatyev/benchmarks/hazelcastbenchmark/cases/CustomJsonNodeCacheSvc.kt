@@ -43,6 +43,7 @@ class CustomJsonNodeCacheSvc(val cacheSvc: CacheSvc, val tdl: TestDataLoader, ):
 
     override fun loadTestData() {
         var counter = 0
+        cacheSvc.customJsonNodeMap.clear()
         tdl.loadJsonData {
             counter++
             val json = CustomJsonNode(it)

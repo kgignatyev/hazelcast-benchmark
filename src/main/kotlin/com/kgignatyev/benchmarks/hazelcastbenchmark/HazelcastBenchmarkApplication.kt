@@ -150,7 +150,7 @@ fun reportResults(i: Int, testName: String, runTime: Long, numResults: Int) {
 	val rt = runTime.toString().padStart(20)
 	val rtMs = (runTime/1000000).toString().padStart(5)
 	val runId = i.toString().padStart(3)
-	println( "$testName $runId $rt ns or ${rtMs}found: $numResults" )
+	println( "$testName $runId $rt ns or ${rtMs} ms found: $numResults" )
 }
 
 fun createSearchCriteria(): SearchCriteria {
@@ -160,5 +160,4 @@ fun createSearchCriteria(): SearchCriteria {
 			PropertyCriteria("employeeNames", "ok", "contains"),
 		)
 	)
-
 }

@@ -3,7 +3,6 @@ package com.kgignatyev.benchmarks.hazelcastbenchmark.cases
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.hazelcast.query.Predicate
 import com.hazelcast.query.Predicates
-import com.jayway.jsonpath.Configuration
 import com.jayway.jsonpath.JsonPath
 import com.kgignatyev.benchmarks.hazelcastbenchmark.*
 import com.kgignatyev.benchmarks.hazelcastbenchmark.BenchmarkConfig.Companion.jsonProvider
@@ -45,6 +44,7 @@ class FlexibleJsonPredicatesSvc(val cacheSvc: CacheSvc, val tdl: TestDataLoader,
     }
 
     override fun loadTestData() {
+        imap.clear()
         var counter = 0
         tdl.loadJsonData {
             counter++

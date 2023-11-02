@@ -42,15 +42,15 @@ class HzConfig {
             attributeConfigs.add(employeeNameAttrConfigForObjects)
 
         })
-        config.addMapConfig( MapConfig().apply {
-            name = deserializedOnDemandCacheName
-            backupCount = 0
-            inMemoryFormat = InMemoryFormat.BINARY
-            cacheDeserializedValues = CacheDeserializedValues.NEVER
-            attributeConfigs.apply {
-                add(employeeNameAttrConfigForObjects)
-            }
-        })
+//        config.addMapConfig( MapConfig().apply {
+//            name = deserializedOnDemandCacheName
+//            backupCount = 0
+//            inMemoryFormat = InMemoryFormat.BINARY
+//            cacheDeserializedValues = CacheDeserializedValues.NEVER
+//            attributeConfigs.apply {
+//                add(employeeNameAttrConfigForObjects)
+//            }
+//        })
 
         //we can't use this because HazelcastJsonValue is rejected by extractors (internal Hazelcast bug? feature?)
 //        val employeeNamesExtractorForDefaultJsonNode =  AttributeConfig("employeeNames",EmployeeNamesExtractorForHzJsonNode::class.java.canonicalName)

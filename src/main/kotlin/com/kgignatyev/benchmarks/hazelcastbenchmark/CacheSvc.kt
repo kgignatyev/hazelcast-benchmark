@@ -69,8 +69,8 @@ class CacheSvc(val hz: HazelcastInstance, val om: ObjectMapper) : ApplicationLis
         val orgNameCriteria = c.searchBy[0].value
         val employeeNameCriteria = c.searchBy[1].value
         return Predicates.and(
-            Predicates.like<String, T>("employeeNames", "%${employeeNameCriteria}%"),
-            Predicates.like<String, T>("name", "%${orgNameCriteria}%")
+            Predicates.like<String, T>("name", "%${orgNameCriteria}%"),
+            Predicates.like<String, T>("employeeNames", "%${employeeNameCriteria}%")
         )
     }
 
