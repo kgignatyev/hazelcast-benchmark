@@ -12,6 +12,7 @@ import com.kgignatyev.benchmarks.hazelcastbenchmark.HzConfig.Companion.flexibleJ
 import com.kgignatyev.benchmarks.hazelcastbenchmark.HzConfig.Companion.jsonNodeMapName
 import com.kgignatyev.benchmarks.hazelcastbenchmark.cases.CustomJsonNode
 import com.kgignatyev.benchmarks.hazelcastbenchmark.cases.FlexibleJsonNode
+import com.kgignatyev.benchmarks.hazelcastbenchmark.hz.BMCompanyAlwaysMathcPredicate
 import com.kgignatyev.benchmarks.hazelcastbenchmark.vo.BMCompany
 import com.kgignatyev.benchmarks.hazelcastbenchmark.hz.BMCompanyContainsPredicate
 import com.kgignatyev.benchmarks.hazelcastbenchmark.hz.StingArrayContainsPredicate
@@ -57,7 +58,9 @@ class CacheSvc(val hz: HazelcastInstance, val om: ObjectMapper) : ApplicationLis
         val comparator = IDComparator<T>()
         val pagingPredicate = Predicates.pagingPredicate(
             predicate,
-            comparator, 1000000
+            comparator,
+            10
+//            1000000
         )
 
         val results: Collection<T> = map.values(pagingPredicate)
@@ -72,6 +75,10 @@ class CacheSvc(val hz: HazelcastInstance, val om: ObjectMapper) : ApplicationLis
             Predicates.like<String, T>("name", "%${orgNameCriteria}%"),
             Predicates.like<String, T>("employeeNames", "%${employeeNameCriteria}%")
         )
+    }
+
+    fun buildEmptyPredicate(c: SearchCriteria): Predicate<String, BMCompany> {
+        return BMCompanyAlwaysMathcPredicate()
     }
 
     fun buildCustomPredicate(c: SearchCriteria): Predicate<String, BMCompany> {

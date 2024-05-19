@@ -36,6 +36,7 @@ fun runUserCommands(cfg: ConfigurableApplicationContext) {
 			  test-list-full
 			  test-object-cache
 			  test-object-cache-w-custom-predicate
+			  test-object-cache-w-empty-predicate
 			  test-default-json-node-cache 
 			  test-custom-json-node-cache
 			  test-flexible-json-node-cache			  
@@ -61,6 +62,10 @@ fun runUserCommands(cfg: ConfigurableApplicationContext) {
 			}
 			"test-object-cache-w-custom-predicate" -> {
 				val svc = cfg.getBean(ObjectCacheCustomPredicateSvc::class.java)
+				runBenchmark(svc)
+			}
+			"test-object-cache-w-empty-predicate" -> {
+				val svc = cfg.getBean(ObjectCacheEmptyPredicateSvc::class.java)
 				runBenchmark(svc)
 			}
 			"test-default-json-node-cache" -> {

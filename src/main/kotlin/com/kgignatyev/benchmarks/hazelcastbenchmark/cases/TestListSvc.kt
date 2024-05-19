@@ -23,7 +23,7 @@ class TestListSvc(val tdl: TestDataLoader) : Benchmark<BMCompany> {
         }
         return if (useSort) {
             filteredList
-                .sortedBy { c.sortBy.first.field }
+                .sortedBy { c.sortBy.first().field }
         } else {
             filteredList
         }

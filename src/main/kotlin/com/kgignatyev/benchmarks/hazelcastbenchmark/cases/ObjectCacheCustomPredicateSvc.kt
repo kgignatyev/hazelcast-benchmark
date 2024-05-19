@@ -13,3 +13,12 @@ class ObjectCacheCustomPredicateSvc(cacheSvc: CacheSvc, tdl: TestDataLoader):Bas
     }
 
 }
+
+@Component
+class ObjectCacheEmptyPredicateSvc(cacheSvc: CacheSvc, tdl: TestDataLoader):BaseObjectCacheSvc(cacheSvc.allInMemoryCache,cacheSvc,tdl, cacheSvc::buildEmptyPredicate){
+
+    override fun name(): String {
+        return "object cache w empty predicate"
+    }
+
+}

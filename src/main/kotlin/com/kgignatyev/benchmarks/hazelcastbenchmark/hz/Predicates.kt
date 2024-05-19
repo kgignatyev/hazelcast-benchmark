@@ -6,6 +6,11 @@ import com.hazelcast.query.impl.getters.MultiResult
 import com.kgignatyev.benchmarks.hazelcastbenchmark.vo.BMCompany
 
 
+class BMCompanyAlwaysMathcPredicate() : Predicate<String, BMCompany> {
+    override fun apply(mapEntry: MutableMap.MutableEntry<String, BMCompany>?): Boolean {
+        return true
+    }
+}
 class BMCompanyContainsPredicate(val field: String, val value: String) : Predicate<String, BMCompany> {
     override fun apply(mapEntry: MutableMap.MutableEntry<String, BMCompany>?): Boolean {
         val r = mapEntry?.value?.let {
